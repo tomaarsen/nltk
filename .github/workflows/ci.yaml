@@ -15,7 +15,7 @@ jobs:
         id: restore-cache
         with:
           path: ~/nltk_data
-          key: nltk_data
+          key: data
 
       - name: Download nltk data packages on cache miss
         run: |
@@ -57,7 +57,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/nltk_data
-          key: nltk_data
+          key: data
 
       - name: Run pytest
         run: pytest --numprocesses auto -rsx nltk/test
