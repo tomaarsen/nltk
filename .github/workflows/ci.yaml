@@ -15,7 +15,7 @@ jobs:
         id: restore-cache
         with:
           path: ~/nltk_data
-          key: data
+          key: nltk_data
 
       - name: Download nltk data packages on cache miss
         run: |
@@ -57,7 +57,15 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/nltk_data
-          key: data
+          key: nltk_data
+        if: ${{ !startsWith(runner.os, 'Windows') }}
+
+      - name: Download nltk data packages for Windows
+        run: |
+          pip install regex # dependencies needed to download nltk data
+          python -c "import nltk; nltk.download('all')"
+        shell: bash
+        if: ${{ startsWith(runner.os, 'Windows') }}
 
       - name: Run pytest
         run: pytest --numprocesses auto -rsx nltk/test
