@@ -5,7 +5,10 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   cache_nltk_data:
     name: cache nltk_data
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -58,14 +61,14 @@ jobs:
         with:
           path: ~/nltk_data
           key: nltk_data
-        if: ${{ !startsWith(runner.os, 'Windows') }}
+        # if: ${{ !startsWith(runner.os, 'Windows') }}
 
-      - name: Download nltk data packages for Windows
-        run: |
-          pip install regex # dependencies needed to download nltk data
-          python -c "import nltk; nltk.download('all')"
-        shell: bash
-        if: ${{ startsWith(runner.os, 'Windows') }}
+      # - name: Download nltk data packages for Windows
+      #   run: |
+      #     pip install regex # dependencies needed to download nltk data
+      #     python -c "import nltk; nltk.download('all')"
+      #   shell: bash
+      #   if: ${{ startsWith(runner.os, 'Windows') }}
 
       - name: Run pytest
         run: pytest --numprocesses auto -rsx nltk/test
