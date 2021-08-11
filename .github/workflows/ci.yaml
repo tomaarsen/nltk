@@ -23,8 +23,7 @@ jobs:
       - name: Download nltk data packages on cache miss
         run: |
           pip install regex # dependencies needed to download nltk data
-          python -c "from pathlib import Path; Path('~/nltk_data').expanduser().mkdir(exist_ok=True)"
-          python -c "import nltk; nltk.download('all', download_dir='~/nltk_data')"
+          python -c "import nltk; from pathlib import Path; path = Path('~/nltk_data').expanduser(); path.mkdir(exist_ok=True); nltk.download('all', download_dir=path)"
         shell: bash
         if: steps.restore-cache.outputs.cache-hit != 'true'
 
