@@ -6,9 +6,10 @@
 # For license information, see LICENSE.TXT
 
 
-from nltk.stem.porter import PorterStemmer
-from nltk.corpus import wordnet
 from itertools import chain, product
+
+from nltk.corpus import wordnet
+from nltk.stem.porter import PorterStemmer
 
 
 def _generate_enums(hypothesis, reference, preprocess=str.lower):
@@ -416,17 +417,15 @@ def meteor_score(
     :rtype: float
     """
     return max(
-        [
-            single_meteor_score(
-                reference,
-                hypothesis,
-                preprocess=preprocess,
-                stemmer=stemmer,
-                wordnet=wordnet,
-                alpha=alpha,
-                beta=beta,
-                gamma=gamma,
-            )
-            for reference in references
-        ]
+        single_meteor_score(
+            reference,
+            hypothesis,
+            preprocess=preprocess,
+            stemmer=stemmer,
+            wordnet=wordnet,
+            alpha=alpha,
+            beta=beta,
+            gamma=gamma,
+        )
+        for reference in references
     )
