@@ -375,21 +375,25 @@ class TestBLEUWithMultipleWeights(unittest.TestCase):
             "the",
             "book",
         ]
-        weight_1 = (1, 0, 0, 0)
-        weight_2 = (0.25, 0.25, 0.25, 0.25)
-        weight_3 = (0, 0, 0, 0, 1)
 
-        bleu_scores = corpus_bleu(
-            list_of_references=[[ref1a, ref1b, ref1c], [ref2a]],
-            hypotheses=[hyp1, hyp2],
-            weights=[weight_1, weight_2, weight_3],
-        )
-        assert bleu_scores[0] == corpus_bleu(
-            [[ref1a, ref1b, ref1c], [ref2a]], [hyp1, hyp2], weight_1
-        )
-        assert bleu_scores[1] == corpus_bleu(
-            [[ref1a, ref1b, ref1c], [ref2a]], [hyp1, hyp2], weight_2
-        )
-        assert bleu_scores[2] == corpus_bleu(
-            [[ref1a, ref1b, ref1c], [ref2a]], [hyp1, hyp2], weight_3
-        )
+        list_weights = [
+            [(1, 0, 0, 0), (0.25, 0.25, 0.25, 0.25), (0, 0, 0, 0, 1)],
+            [
+                (0.5, 0.5),
+                (0.3, 0.3, 0.4),
+                (0.25, 0.25, 0.25, 0.25),
+                (0.2, 0.2, 0.2, 0.2, 0.2),
+            ],
+            [(0.2, 0.8), (0.8, 0.2)],
+        ]
+
+        for weights in list_weights:
+            bleu_scores = corpus_bleu(
+                list_of_references=[[ref1a, ref1b, ref1c], [ref2a]],
+                hypotheses=[hyp1, hyp2],
+                weights=weights,
+            )
+            for score, weight in zip(bleu_scores, weights):
+                assert score == corpus_bleu(
+                    [[ref1a, ref1b, ref1c], [ref2a]], [hyp1, hyp2], weight
+                )
