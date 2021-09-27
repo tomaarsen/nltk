@@ -1,4 +1,4 @@
-# Natural Language Toolkit (NLTK) 
+# Natural Language Toolkit (NLTK)
 #
 # Copyright (C) 2001-2021 NLTK Project
 # Authors: Steven Bird <stevenbird1@gmail.com>
