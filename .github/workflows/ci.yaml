@@ -125,3 +125,41 @@ jobs:
         shell: bash
         run: |
           pytest --numprocesses auto -rsx --doctest-modules nltk/test
+
+  test_oldest_version:
+    name: Python 3.6 on ubuntu-latest, with oldest dependencies
+    needs: cache_nltk_data
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        id: restore-cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: python-dependencies-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pip-req.txt') }}-${{ env.pythonLocation }}
+
+      - name: Install dependencies on cache miss
+        run: |
+          pip install --no-cache-dir --upgrade pip
+          sed -i 's/>=/==/g' pip-req.txt
+          cat pip-req.txt
+          pip install --no-cache-dir --upgrade --requirement pip-req.txt
+        if: steps.restore-cache.outputs.cache-hit != 'true'
+
+      - name: Use cached nltk data
+        uses: actions/cache@v2
+        with:
+          path: ~/nltk_data
+          key: nltk_data_${{ secrets.CACHE_VERSION }}
+
+      - name: Run pytest
+        shell: bash
+        run: |
+          pytest --numprocesses auto -rsx --doctest-modules nltk/test
