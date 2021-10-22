@@ -129,6 +129,7 @@ jobs:
   test_oldest_version:
     name: Python 3.6 on ubuntu-latest, with oldest dependencies
     needs: cache_nltk_data
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
