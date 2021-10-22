@@ -127,9 +127,14 @@ jobs:
           pytest --numprocesses auto -rsx --doctest-modules nltk/test
 
   test_oldest_version:
-    name: Python 3.6 on ubuntu-latest, with oldest dependencies
+    name: Oldest dependencies, Python ${{ matrix.python-version }} on ${{ matrix.os }}
     needs: cache_nltk_data
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+        os: [ubuntu-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -137,7 +142,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.6
+          python-version: ${{ matrix.python-version }}
 
       - name: Cache dependencies
         uses: actions/cache@v2
