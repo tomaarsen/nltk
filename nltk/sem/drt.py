@@ -1009,7 +1009,9 @@ class AnaphoraResolutionException(Exception):
     pass
 
 
-def resolve_anaphora(expression, trail=[]):
+def resolve_anaphora(expression, trail=None):
+    if trail is None:
+        trail = []
     if isinstance(expression, ApplicationExpression):
         if expression.is_pronoun_function():
             possible_antecedents = PossibleAntecedents()

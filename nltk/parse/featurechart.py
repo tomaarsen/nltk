@@ -487,11 +487,13 @@ class FeatureChartParser(ChartParser):
     def __init__(
         self,
         grammar,
-        strategy=BU_LC_FEATURE_STRATEGY,
+        strategy=None,
         trace_chart_width=20,
         chart_class=FeatureChart,
         **parser_args,
     ):
+        if strategy is None:
+            strategy = BU_LC_FEATURE_STRATEGY
         ChartParser.__init__(
             self,
             grammar,

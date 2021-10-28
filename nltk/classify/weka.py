@@ -203,9 +203,11 @@ class WekaClassifier(ClassifierI):
         model_filename,
         featuresets,
         classifier="naivebayes",
-        options=[],
+        options=None,
         quiet=True,
     ):
+        if options is None:
+            options = []
         # Make sure we can find java & weka.
         config_weka()
 

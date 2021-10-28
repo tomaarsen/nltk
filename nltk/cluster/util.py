@@ -181,11 +181,13 @@ class Dendrogram:
     to the merge function.
     """
 
-    def __init__(self, items=[]):
+    def __init__(self, items=None):
         """
         :param  items: the items at the leaves of the dendrogram
         :type   items: sequence of (any)
         """
+        if items is None:
+            items = []
         self._items = [_DendrogramNode(item) for item in items]
         self._original_items = copy.copy(self._items)
         self._merge = 1
@@ -218,14 +220,16 @@ class Dendrogram:
             root = self._items[0]
         return root.groups(n)
 
-    def show(self, leaf_labels=[]):
+    def show(self, leaf_labels=None):
         """
         Print the dendrogram in ASCII art to standard out.
 
         :param leaf_labels: an optional list of strings to use for labeling the
-                            leaves
+            leaves
         :type leaf_labels: list
         """
+        if leaf_labels is None:
+            leaf_labels = []
 
         # ASCII rendering characters
         JOIN, HLINK, VLINK = "+", "-", "|"

@@ -207,7 +207,7 @@ class MaceCommand(Prover9CommandParent, BaseModelBuilderCommand):
         else:
             raise LookupError("The specified format does not exist")
 
-    def _call_interpformat(self, input_str, args=[], verbose=False):
+    def _call_interpformat(self, input_str, args=None, verbose=False):
         """
         Call the ``interpformat`` binary with the given input.
 
@@ -216,6 +216,8 @@ class MaceCommand(Prover9CommandParent, BaseModelBuilderCommand):
         :return: A tuple (stdout, returncode)
         :see: ``config_prover9``
         """
+        if args is None:
+            args = []
         if self._interpformat_bin is None:
             self._interpformat_bin = self._modelbuilder._find_binary(
                 "interpformat", verbose
@@ -249,7 +251,7 @@ class Mace(Prover9Parent, ModelBuilder):
         )
         return (returncode == 0, stdout)
 
-    def _call_mace4(self, input_str, args=[], verbose=False):
+    def _call_mace4(self, input_str, args=None, verbose=False):
         """
         Call the ``mace4`` binary with the given input.
 
@@ -258,6 +260,8 @@ class Mace(Prover9Parent, ModelBuilder):
         :return: A tuple (stdout, returncode)
         :see: ``config_prover9``
         """
+        if args is None:
+            args = []
         if self._mace4_bin is None:
             self._mace4_bin = self._find_binary("mace4", verbose)
 

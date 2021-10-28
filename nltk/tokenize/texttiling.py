@@ -67,13 +67,14 @@ class TextTilingTokenizer(TokenizerI):
         k=10,
         similarity_method=BLOCK_COMPARISON,
         stopwords=None,
-        smoothing_method=DEFAULT_SMOOTHING,
+        smoothing_method=None,
         smoothing_width=2,
         smoothing_rounds=1,
         cutoff_policy=HC,
         demo_mode=False,
     ):
-
+        if smoothing_method is None:
+            smoothing_method = DEFAULT_SMOOTHING
         if stopwords is None:
             from nltk.corpus import stopwords
 

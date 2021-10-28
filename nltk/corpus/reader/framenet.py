@@ -1387,7 +1387,7 @@ warnings(True) to display corpus consistency warnings when loading data
             info[k] = v
         return info
 
-    def frame_by_id(self, fn_fid, ignorekeys=[]):
+    def frame_by_id(self, fn_fid, ignorekeys=None):
         """
         Get the details for the specified Frame using the frame's id
         number.
@@ -1414,6 +1414,8 @@ warnings(True) to display corpus consistency warnings when loading data
         Also see the ``frame()`` function for details about what is
         contained in the dict that is returned.
         """
+        if ignorekeys is None:
+            ignorekeys = []
 
         # get the name of the frame with this id number
         try:
@@ -1429,7 +1431,7 @@ warnings(True) to display corpus consistency warnings when loading data
 
         return self.frame_by_name(name, ignorekeys, check_cache=False)
 
-    def frame_by_name(self, fn_fname, ignorekeys=[], check_cache=True):
+    def frame_by_name(self, fn_fname, ignorekeys=None, check_cache=True):
         """
         Get the details for the specified Frame using the frame's name.
 
@@ -1455,6 +1457,8 @@ warnings(True) to display corpus consistency warnings when loading data
         Also see the ``frame()`` function for details about what is
         contained in the dict that is returned.
         """
+        if ignorekeys is None:
+            ignorekeys = []
 
         if check_cache and fn_fname in self._cached_frames:
             return self._frame_idx[self._cached_frames[fn_fname]]
@@ -1495,7 +1499,7 @@ warnings(True) to display corpus consistency warnings when loading data
         """
         return fentry
 
-    def frame(self, fn_fid_or_fname, ignorekeys=[]):
+    def frame(self, fn_fid_or_fname, ignorekeys=None):
         """
         Get the details for the specified Frame using the frame's name
         or id number.
@@ -1563,6 +1567,8 @@ warnings(True) to display corpus consistency warnings when loading data
         :return: Information about a frame
         :rtype: dict
         """
+        if ignorekeys is None:
+            ignorekeys = []
 
         # get the frame info by name or id number
         if isinstance(fn_fid_or_fname, str):
@@ -1632,7 +1638,7 @@ warnings(True) to display corpus consistency warnings when loading data
         """
         return self.lu(fn_luid, ignorekeys=["subCorpus", "exemplars"])
 
-    def lu(self, fn_luid, ignorekeys=[], luName=None, frameID=None, frameName=None):
+    def lu(self, fn_luid, ignorekeys=None, luName=None, frameID=None, frameName=None):
         """
         Access a lexical unit by its ID. luName, frameID, and frameName are used
         only in the event that the LU does not have a file in the database
@@ -1765,6 +1771,8 @@ warnings(True) to display corpus consistency warnings when loading data
         :return: All information about the lexical unit
         :rtype: dict
         """
+        if ignorekeys is None:
+            ignorekeys = []
         # look for this LU in cache
         if not self._lu_idx:
             self._buildluindex()
@@ -1801,11 +1809,13 @@ warnings(True) to display corpus consistency warnings when loading data
 
         return luinfo
 
-    def _lu_file(self, lu, ignorekeys=[]):
+    def _lu_file(self, lu, ignorekeys=None):
         """
         Augment the LU information that was loaded from the frame file
         with additional information from the LU file.
         """
+        if ignorekeys is None:
+            ignorekeys = []
         fn_luid = lu.ID
 
         fname = f"lu{fn_luid}.xml"
@@ -2802,8 +2812,10 @@ warnings(True) to display corpus consistency warnings when loading data
 
         return retlist
 
-    def _handle_frame_elt(self, elt, ignorekeys=[]):
+    def _handle_frame_elt(self, elt, ignorekeys=None):
         """Load the info for a Frame from a frame xml file"""
+        if ignorekeys is None:
+            ignorekeys = []
         frinfo = self._load_xml_attributes(AttrDict(), elt)
 
         frinfo["_type"] = "frame"

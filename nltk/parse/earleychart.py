@@ -303,7 +303,7 @@ class IncrementalChartParser(ChartParser):
     def __init__(
         self,
         grammar,
-        strategy=BU_LC_INCREMENTAL_STRATEGY,
+        strategy=None,
         trace=0,
         trace_chart_width=50,
         chart_class=IncrementalChart,
@@ -326,6 +326,8 @@ class IncrementalChartParser(ChartParser):
         :param chart_class: The class that should be used to create
             the charts used by this parser.
         """
+        if strategy is None:
+            strategy = BU_LC_INCREMENTAL_STRATEGY
         self._grammar = grammar
         self._trace = trace
         self._trace_chart_width = trace_chart_width
@@ -452,11 +454,13 @@ class FeatureIncrementalChartParser(IncrementalChartParser, FeatureChartParser):
     def __init__(
         self,
         grammar,
-        strategy=BU_LC_INCREMENTAL_FEATURE_STRATEGY,
+        strategy=None,
         trace_chart_width=20,
         chart_class=FeatureIncrementalChart,
         **parser_args
     ):
+        if strategy is None:
+            strategy = BU_LC_INCREMENTAL_FEATURE_STRATEGY
         IncrementalChartParser.__init__(
             self,
             grammar,

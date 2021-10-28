@@ -45,7 +45,7 @@ class CRFTagger(TaggerI):
     1.0
     """
 
-    def __init__(self, feature_func=None, verbose=False, training_opt={}):
+    def __init__(self, feature_func=None, verbose=False, training_opt=None):
         """
         Initialize the CRFSuite tagger
 
@@ -76,6 +76,8 @@ class CRFTagger(TaggerI):
                 - 'StrongBacktracking': Backtracking method with strong Wolfe condition
             :'max_linesearch':  The maximum number of trials for the line search algorithm.
         """
+        if training_opt is None:
+            training_opt = {}
 
         self._model_file = ""
         self._tagger = pycrfsuite.Tagger()

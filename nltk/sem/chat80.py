@@ -249,7 +249,7 @@ class Concept:
     (https://www.w3.org/TR/swbp-skos-core-guide/).
     """
 
-    def __init__(self, prefLabel, arity, altLabels=[], closures=[], extension=set()):
+    def __init__(self, prefLabel, arity, altLabels=None, closures=None, extension=None):
         """
         :param prefLabel: the preferred label for the concept
         :type prefLabel: str
@@ -263,6 +263,12 @@ class Concept:
         :param extension: the extensional value of the concept
         :type extension: set
         """
+        if altLabels is None:
+            altLabels = []
+        if closures is None:
+            closures = []
+        if extension is None:
+            extension = set()
         self.prefLabel = prefLabel
         self.arity = arity
         self.altLabels = altLabels
@@ -361,7 +367,7 @@ class Concept:
         self.extension = sorted(list(self._extension))
 
 
-def clause2concepts(filename, rel_name, schema, closures=[]):
+def clause2concepts(filename, rel_name, schema, closures=None):
     """
     Convert a file of Prolog clauses into a list of ``Concept`` objects.
 
@@ -376,6 +382,8 @@ def clause2concepts(filename, rel_name, schema, closures=[]):
     :return: a list of ``Concept`` objects
     :rtype: list
     """
+    if closures is None:
+        closures = []
     concepts = []
     # position of the subject of a binary relation
     subj = 0

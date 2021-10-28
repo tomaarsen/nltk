@@ -246,7 +246,7 @@ class Boxer:
             verbose=verbose,
         )
 
-    def _call(self, input_str, binary, args=[], verbose=False):
+    def _call(self, input_str, binary, args=None, verbose=False):
         """
         Call the binary with the given input.
 
@@ -255,6 +255,8 @@ class Boxer:
         :param args: A list of command-line arguments.
         :return: stdout
         """
+        if args is None:
+            args = []
         if verbose:
             print("Calling:", binary)
             print("Args:", args)

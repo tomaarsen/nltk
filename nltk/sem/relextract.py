@@ -101,13 +101,13 @@ def _join(lst, sep=" ", untag=False):
         return sep.join(tuple2str(tup) for tup in lst)
 
 
-def descape_entity(m, defs=html.entities.entitydefs):
+def descape_entity(m, defs=None):
     """
     Translate one entity to its ISO Latin value.
     Inspired by example from effbot.org
-
-
     """
+    if defs is None:
+        defs = html.entities.entitydefs
     try:
         return defs[m.group(1)]
 

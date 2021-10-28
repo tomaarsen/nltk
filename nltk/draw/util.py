@@ -1969,11 +1969,13 @@ class CanvasFrame:
         # Deregister with scrollwatcher.
         self._scrollwatcher.remove_child(canvaswidget)
 
-    def pack(self, cnf={}, **kw):
+    def pack(self, cnf=None, **kw):
         """
         Pack this ``CanvasFrame``.  See the documentation for
         ``Tkinter.Pack`` for more information.
         """
+        if cnf is None:
+            cnf = {}
         self._frame.pack(cnf, **kw)
         # Adjust to be big enough for kids?
 
@@ -2183,7 +2185,7 @@ class ColorizedList:
         ``'select'`` that calls ``mark`` on the given item.
     """
 
-    def __init__(self, parent, items=[], **options):
+    def __init__(self, parent, items=None, **options):
         """
         Construct a new list.
 
@@ -2191,6 +2193,8 @@ class ColorizedList:
         :param items: The initial contents of the colorized list.
         :param options:
         """
+        if items is None:
+            items = []
         self._parent = parent
         self._callbacks = {}
 
@@ -2360,12 +2364,16 @@ class ColorizedList:
     # Tkinter Methods
     # ////////////////////////////////////////////////////////////
 
-    def pack(self, cnf={}, **kw):
+    def pack(self, cnf=None, **kw):
         #        "@include: Tkinter.Pack.pack"
+        if cnf is None:
+            cnf = {}
         self._itemframe.pack(cnf, **kw)
 
-    def grid(self, cnf={}, **kw):
+    def grid(self, cnf=None, **kw):
         #        "@include: Tkinter.Grid.grid"
+        if cnf is None:
+            cnf = {}
         self._itemframe.grid(cnf, *kw)
 
     def focus(self):

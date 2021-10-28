@@ -183,7 +183,7 @@ class Prover9Parent:
             verbose=verbose,
         )
 
-    def _call(self, input_str, binary, args=[], verbose=False):
+    def _call(self, input_str, binary, args=None, verbose=False):
         """
         Call the binary with the given input.
 
@@ -193,6 +193,8 @@ class Prover9Parent:
         :return: A tuple (stdout, returncode)
         :see: ``config_prover9``
         """
+        if args is None:
+            args = []
         if verbose:
             print("Calling:", binary)
             print("Args:", args)
@@ -336,7 +338,7 @@ class Prover9(Prover9Parent, Prover):
         s = "clear(auto_denials).\n"  # only one proof required
         return s + Prover9Parent.prover9_input(self, goal, assumptions)
 
-    def _call_prover9(self, input_str, args=[], verbose=False):
+    def _call_prover9(self, input_str, args=None, verbose=False):
         """
         Call the ``prover9`` binary with the given input.
 
@@ -345,6 +347,8 @@ class Prover9(Prover9Parent, Prover):
         :return: A tuple (stdout, returncode)
         :see: ``config_prover9``
         """
+        if args is None:
+            args = []
         if self._prover9_bin is None:
             self._prover9_bin = self._find_binary("prover9", verbose)
 
@@ -371,7 +375,7 @@ class Prover9(Prover9Parent, Prover):
 
         return stdout, returncode
 
-    def _call_prooftrans(self, input_str, args=[], verbose=False):
+    def _call_prooftrans(self, input_str, args=None, verbose=False):
         """
         Call the ``prooftrans`` binary with the given input.
 
@@ -380,6 +384,8 @@ class Prover9(Prover9Parent, Prover):
         :return: A tuple (stdout, returncode)
         :see: ``config_prover9``
         """
+        if args is None:
+            args = []
         if self._prooftrans_bin is None:
             self._prooftrans_bin = self._find_binary("prooftrans", verbose)
 

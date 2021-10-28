@@ -254,7 +254,9 @@ class PrimitiveCategory(AbstractCCGCategory):
     list of strings specifying the morphological subcategories.
     """
 
-    def __init__(self, categ, restrictions=[]):
+    def __init__(self, categ, restrictions=None):
+        if restrictions is None:
+            restrictions = []
         self._categ = categ
         self._restrs = restrictions
         self._comparison_key = (categ, tuple(restrictions))

@@ -550,17 +550,7 @@ def _ieer_read_text(s, root_label):
 
 def ieerstr2tree(
     s,
-    chunk_types=[
-        "LOCATION",
-        "ORGANIZATION",
-        "PERSON",
-        "DURATION",
-        "DATE",
-        "CARDINAL",
-        "PERCENT",
-        "MONEY",
-        "MEASURE",
-    ],
+    chunk_types=None,
     root_label="S",
 ):
     """
@@ -573,6 +563,18 @@ def ieerstr2tree(
 
     :rtype: Tree
     """
+    if chunk_types is None:
+        chunk_types = [
+            "LOCATION",
+            "ORGANIZATION",
+            "PERSON",
+            "DURATION",
+            "DATE",
+            "CARDINAL",
+            "PERCENT",
+            "MONEY",
+            "MEASURE",
+        ]
 
     # Try looking for a single document.  If that doesn't work, then just
     # treat everything as if it was within the <TEXT>...</TEXT>.

@@ -59,7 +59,7 @@ class MultiListbox(Frame):
     # Constructor
     # /////////////////////////////////////////////////////////////////
 
-    def __init__(self, master, columns, column_weights=None, cnf={}, **kw):
+    def __init__(self, master, columns, column_weights=None, cnf=None, **kw):
         """
         Construct a new multi-column listbox widget.
 
@@ -79,6 +79,8 @@ class MultiListbox(Frame):
 
                 >>> mlb = MultiListbox(master, 5, label_foreground='red')
         """
+        if cnf is None:
+            cnf = {}
         # If columns was specified as an int, convert it to a list.
         if isinstance(columns, int):
             columns = list(range(columns))
@@ -295,7 +297,7 @@ class MultiListbox(Frame):
     # Configuration
     # /////////////////////////////////////////////////////////////////
 
-    def configure(self, cnf={}, **kw):
+    def configure(self, cnf=None, **kw):
         """
         Configure this widget.  Use ``label_*`` to configure all
         labels; and ``listbox_*`` to configure all listboxes.  E.g.:
@@ -304,6 +306,8 @@ class MultiListbox(Frame):
                 >>> mlb.configure(label_foreground='red')
                 >>> mlb.configure(listbox_foreground='red')
         """
+        if cnf is None:
+            cnf = {}
         cnf = dict(list(cnf.items()) + list(kw.items()))
         for (key, val) in list(cnf.items()):
             if key.startswith("label_") or key.startswith("label-"):
@@ -322,21 +326,25 @@ class MultiListbox(Frame):
         """
         self.configure({key: val})
 
-    def rowconfigure(self, row_index, cnf={}, **kw):
+    def rowconfigure(self, row_index, cnf=None, **kw):
         """
         Configure all table cells in the given row.  Valid keyword
         arguments are: ``background``, ``bg``, ``foreground``, ``fg``,
         ``selectbackground``, ``selectforeground``.
         """
+        if cnf is None:
+            cnf = {}
         for lb in self._listboxes:
             lb.itemconfigure(row_index, cnf, **kw)
 
-    def columnconfigure(self, col_index, cnf={}, **kw):
+    def columnconfigure(self, col_index, cnf=None, **kw):
         """
         Configure all table cells in the given column.  Valid keyword
         arguments are: ``background``, ``bg``, ``foreground``, ``fg``,
         ``selectbackground``, ``selectforeground``.
         """
+        if cnf is None:
+            cnf = {}
         lb = self._listboxes[col_index]
 
         cnf = dict(list(cnf.items()) + list(kw.items()))
@@ -360,6 +368,8 @@ class MultiListbox(Frame):
         keyword arguments are: ``background``, ``bg``, ``foreground``,
         ``fg``, ``selectbackground``, ``selectforeground``.
         """
+        if cnf is None:
+            cnf = {}
         lb = self._listboxes[col_index]
         return lb.itemconfigure(row_index, cnf, **kw)
 
@@ -625,7 +635,7 @@ class Table:
         scrollbar=True,
         click_to_sort=True,
         reprfunc=None,
-        cnf={},
+        cnf=None,
         **kw
     ):
         """
@@ -659,6 +669,8 @@ class Table:
             contained ``MultiListbox``.  See ``MultiListbox.__init__()``
             for details.
         """
+        if cnf is None:
+            cnf = {}
         self._num_columns = len(column_names)
         self._reprfunc = reprfunc
         self._frame = Frame(master)
@@ -719,17 +731,23 @@ class Table:
         ``func`` in response to the event sequence."""
         self._mlb.bind(sequence, func, add)
 
-    def rowconfigure(self, row_index, cnf={}, **kw):
+    def rowconfigure(self, row_index, cnf=None, **kw):
         """:see: ``MultiListbox.rowconfigure()``"""
+        if cnf is None:
+            cnf = {}
         self._mlb.rowconfigure(row_index, cnf, **kw)
 
-    def columnconfigure(self, col_index, cnf={}, **kw):
+    def columnconfigure(self, col_index, cnf=None, **kw):
         """:see: ``MultiListbox.columnconfigure()``"""
+        if cnf is None:
+            cnf = {}
         col_index = self.column_index(col_index)
         self._mlb.columnconfigure(col_index, cnf, **kw)
 
     def itemconfigure(self, row_index, col_index, cnf=None, **kw):
         """:see: ``MultiListbox.itemconfigure()``"""
+        if cnf is None:
+            cnf = {}
         col_index = self.column_index(col_index)
         return self._mlb.itemconfigure(row_index, col_index, cnf, **kw)
 

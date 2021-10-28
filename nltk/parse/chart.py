@@ -1353,7 +1353,7 @@ class ChartParser(ParserI):
     def __init__(
         self,
         grammar,
-        strategy=BU_LC_STRATEGY,
+        strategy=None,
         trace=0,
         trace_chart_width=50,
         use_agenda=True,
@@ -1368,6 +1368,7 @@ class ChartParser(ParserI):
         :type strategy: list(ChartRuleI)
         :param strategy: A list of rules that should be used to decide
             what edges to add to the chart (top-down strategy by default).
+            Defaults to ``BU_LC_STRATEGY``.
         :type trace: int
         :param trace: The level of tracing that should be used when
             parsing a text.  ``0`` will generate no tracing output;
@@ -1383,6 +1384,8 @@ class ChartParser(ParserI):
         :param chart_class: The class that should be used to create
             the parse charts.
         """
+        if strategy is None:
+            strategy = BU_LC_STRATEGY
         self._grammar = grammar
         self._strategy = strategy
         self._trace = trace
@@ -1543,7 +1546,9 @@ class SteppingChartParser(ChartParser):
         the parsing algorithm.
     """
 
-    def __init__(self, grammar, strategy=[], trace=0):
+    def __init__(self, grammar, strategy=None, trace=0):
+        if strategy is None:
+            strategy = []
         self._chart = None
         self._current_chartrule = None
         self._restart = False
